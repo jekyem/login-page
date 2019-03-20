@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import LoginPage from './LoginPage';
+import Login from './Login';
 
 ReactDOM.render(
-    <LoginPage/>,
+    <Login/>,
     document.getElementById('login page')
 );

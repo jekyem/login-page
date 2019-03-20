@@ -4,19 +4,22 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "yarn build && yarn startServer",
-    "dev": "concurrently \"yarn startServer\" \"yarn startClient\"",
+    "start": "yarn build && concurrently \"yarn watchClient\" \"yarn watchServer\" \"nodemon build/index.js\"",
     "build": "yarn buildClient && yarn buildServer",
     "buildClient": "webpack --mode production",
-    "buildServer": "babel ./src/server --out-dir ./build/server",
-    "startClient": "webpack-dev-server --mode development",
-    "startServer": "nodemon --exec babel-node -- src/server/index.js"
+    "buildServer": "babel ./src/server --out-dir ./build",
+    "watchClient": "webpack --mode production --watch",
+    "watchServer": "babel ./src/server --out-dir ./build --watch"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.18.3",
+    "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "morgan": "^1.9.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   },
@@ -24,6 +27,7 @@
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
     "@babel/node": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.4.0",
     "@babel/preset-env": "^7.3.4",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.5",
