@@ -1,6 +1,7 @@
 import express from 'express';
-import mongoose, { Mongoose } from 'mongoose';
 import 'babel-polyfill';
+
+import UserCollection from './../mongo/UserCollection';
 
 const router = express.Router();
 
@@ -12,34 +13,16 @@ router.get('/' , function(req,res){
 });
 
 router.post('/session', async function(req,res){
-    if(await checkUser(req.body.id, req.body.password)){
+    const result = await userAuthenticate(req.body.id, req.body.password) 
+    
+    if(result)
         req.session.logined = true;
-        res.send('ok');
-    }
-    else
-        res.send('fail');
+    res.send(result);
 });
 
-const checkUser = async function(id,pw) {
-    await mongoose.connect('mongodb://localhost/todo-list').then(console.log('connect'));
-
-    const userSchema = new mongoose.Schema({
-        id: { type: String, required: true, unique: true },
-        password: { type: String, required: true }
-    });
-
-    const User = mongoose.model('user', userSchema);
-
-    User.find({"id":"aaa"}, function(err, todo) {
-        if(err) throw err;
-        console.log("ccc");
-        console.log(todo);
-    });
-
-    if(id === 'aaa' && pw === 'bbb')
-        return false;
-    else
-        return false;
+const userAuthenticate = async function(id,pw) {
+    const user = await UserCollection.getUser(id);
+    return user && user.password === pw;
 }
 
 export default router;

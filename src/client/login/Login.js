@@ -11,18 +11,16 @@ export default class LoginPage extends Component{
             id:'',
             password:''
         };
-        this.handleChange=this.handleChange.bind(this);
-        this.handleSubmit=this.handleSubmit.bind(this);
     }
 
-    handleChange(e) {
+    handleChange = (e) => {
         this.setState({
             ...this.state,
             [e.target.name]:e.target.value
         });
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         axios({
             method:'post',
             url:'/login/session',
@@ -32,10 +30,10 @@ export default class LoginPage extends Component{
             }
         })
         .then(res => {
-            if(res.data === 'ok')
-               window.location = '/';
+            if(res.data)
+                window.location = '/';
             else
-                console.log('실패');
+                alert('로그인 실패');
         })
         .catch((error) => {
         });
