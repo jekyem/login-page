@@ -7,7 +7,8 @@ const outputDirectory = "build/public";
  
 module.exports = {
   entry: {
-    login:path.resolve(__dirname, "./src/client/login/index.js")
+    login:path.resolve(__dirname, "./src/client/login/index.js"),
+    todo:path.resolve(__dirname, "./src/client/todo/index.js")
   },
   output: {
     path: path.join(__dirname, outputDirectory),
@@ -34,7 +35,12 @@ module.exports = {
     new HtmlWebpackPlugin({
       filename: "../views/login.html",
       chunks:['login'],
-      template: path.resolve(__dirname, "src/client/index.html")
+      template: path.resolve(__dirname, "src/client/login/index.html")
+    }),
+    new HtmlWebpackPlugin({
+      filename: "../views/todo.html",
+      chunks:['todo'],
+      template: path.resolve(__dirname, "src/client/todo/index.html")
     }),
     new MiniCssExtractPlugin({
         filename: "[name].css",

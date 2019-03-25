@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import Login from './Login';
+import Todo from './Todo';
 
 ReactDOM.render(
-    <Login/>,
-    document.getElementById('login')
+    <Todo/>,
+    document.getElementById('todo')
 );

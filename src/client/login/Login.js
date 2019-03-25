@@ -1,4 +1,6 @@
 import React, {Component} from 'react'
+import axios from 'axios';
+
 import './Login.css';
 
 export default class LoginPage extends Component{
@@ -9,9 +11,8 @@ export default class LoginPage extends Component{
             id:'',
             password:''
         };
-
         this.handleChange=this.handleChange.bind(this);
-        this.handleOnlogin=this.handleOnlogin.bind(this);
+        this.handleSubmit=this.handleSubmit.bind(this);
     }
 
     handleChange(e) {
@@ -21,8 +22,23 @@ export default class LoginPage extends Component{
         });
     }
 
-    handleOnlogin() {
-        console.log('로그인 시도');
+    handleSubmit() {
+        axios({
+            method:'post',
+            url:'/login/session',
+            data:{
+                id:this.state.id,
+                password:this.state.password
+            }
+        })
+        .then(res => {
+            if(res.data === 'ok')
+               window.location = '/';
+            else
+                console.log('실패');
+        })
+        .catch((error) => {
+        });
     }
 
     render() {
@@ -49,7 +65,7 @@ export default class LoginPage extends Component{
                     <div class="login-button">
                         <input type="checkbox"/> Remember me
                         <button
-                            onClick={this.handleOnlogin}
+                            onClick={this.handleSubmit}
                         >Login</button>
                     </div>
                     <div class="login-register">
