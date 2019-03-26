@@ -7,23 +7,19 @@ import ejs from 'ejs';
 
 import loginPage from './routes/login';
 import todoPage from './routes/todo';
+import api from './api/api';
 
 class Server {
     constructor(){
         this.server = express();
         this.port = 8080;
 
-        this.addMiddleware=this.addMiddleware.bind(this);
         this.addMiddleware();
-
-        this.setView=this.setView.bind(this);
         this.setView();
-
-        this.setRouter=this.setRouter.bind(this);
         this.setRouter();
     }
 
-    addMiddleware() {
+    addMiddleware = () => {
         this.server.use(morgan('dev'));
         this.server.use(bodyParser.json());
         this.server.use(session({
@@ -33,19 +29,20 @@ class Server {
         }));
     }
 
-    setView(){
+    setView = () => {
         this.server.set('views',__dirname+'/views');
         this.server.set('view engine', 'ejs');
         this.server.engine('html', ejs.renderFile);
         this.server.use(express.static(__dirname+'/public/'));        
     }
 
-    setRouter(){
+    setRouter = () => {
         this.server.use('/', todoPage);
         this.server.use('/login', loginPage);
+        this.server.use('/api',api);
     }
 
-    start(){
+    start = () => {
         this.server.listen(this.port);
     }
 }

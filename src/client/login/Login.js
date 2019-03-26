@@ -23,7 +23,7 @@ export default class LoginPage extends Component{
     handleSubmit = () => {
         axios({
             method:'post',
-            url:'/login/session',
+            url:'/login',
             data:{
                 id:this.state.id,
                 password:this.state.password

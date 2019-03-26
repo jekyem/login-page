@@ -12,15 +12,15 @@ router.get('/' , function(req,res){
         res.render('login.html');
 });
 
-router.post('/session', async function(req,res){
-    const result = await userAuthenticate(req.body.id, req.body.password) 
+router.post('/', async function(req,res){
+    const result = await loginAuthenticate(req.body.id, req.body.password) 
     
     if(result)
         req.session.logined = true;
     res.send(result);
 });
 
-const userAuthenticate = async function(id,pw) {
+const loginAuthenticate = async function(id,pw) {
     const user = await UserCollection.getUser(id);
     return user && user.password === pw;
 }

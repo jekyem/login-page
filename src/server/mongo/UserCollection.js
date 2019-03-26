@@ -1,23 +1,34 @@
 import 'babel-polyfill';
 
-import MongoDB from './MongoDB';
+import * as TodoDB from './TodoDB';
 
 class UserCollection {
     constructor() {
-        this.mongoose = MongoDB.getMongoose();
         this.userSchema = this.makeUserSchema();
         this.userModel = this.makeUserModel();
     }
 
     makeUserSchema = () => {
-        return new this.mongoose.Schema({
+        return new TodoDB.mongoose.Schema({
             id: {type: String, required: true, unique: true},
             password: {type: String, required: true}
         });
     }
 
     makeUserModel = () => {
-        return this.mongoose.model('user', this.userSchema);
+        return TodoDB.mongoose.model('user', this.userSchema);
+    }
+
+    addUser = async (userData) => {
+        var user = new this.userModel();
+        user.id = userData.id;
+        user.password = userData.id;
+        try {
+            await user.save();
+            return true;
+        } catch (error) {
+            return false;            
+        }
     }
 
     getUser = async (id) => {
