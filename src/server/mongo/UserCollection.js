@@ -23,6 +23,7 @@ class UserCollection {
         var user = new this.userModel();
         user.id = userData.id;
         user.password = userData.id;
+        
         try {
             await user.save();
             return true;

@@ -1,7 +1,5 @@
-1. restful로 변경 - 회원 가입 부터 하고 로그인 변화
-2. 회원가입
+2. 회원가입 페이지
 3. PW암호화
 4. Mongo DB validtor 추가
 5. input 유효성 검사
 6. Remember me 기능 추가
-7. css
