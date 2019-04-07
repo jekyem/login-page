@@ -1,7 +1,8 @@
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import axios from 'axios';
 
 import './LoginForm.css';
+import Encryption from '../../encryption/Encryption';
 
 export default class LoginForm extends Component{
     constructor(props){
@@ -29,13 +30,23 @@ export default class LoginForm extends Component{
     }
 
     handleSubmit = () => {
+        const data = {
+            id:this.state.id,
+            password:this.state.password
+        }
+        
+        const key = Encryption.getRandomKey();
+        const encryptedData = Encryption.encryptionAES(JSON.stringify(data),key);
+
         var self = this;
         axios({
             method:'post',
             url:'/api/auth/login',
             data:{
-                id:this.state.id,
-                password:this.state.password
+                key:key,
+                data:encryptedData
+                // id:this.state.id,
+                // password:this.state.password
             }
         })
         .then(res => {
@@ -53,9 +64,9 @@ export default class LoginForm extends Component{
 
     render() {
         return (
-            <div className="login-from">
-                <div class="login-title"> Welcome </div>
-                <div class="login-input">
+            <div className="login-form">
+                <div className="login-title"> Welcome </div>
+                <div className="login-input">
                     <input 
                         type="text"
                         placeholder="Email Address"
@@ -85,6 +96,7 @@ export default class LoginForm extends Component{
                 </button>
                 <button 
                     className="login-register btn btn-secondary"
+                    onClick={() => {this.props.showSingUp(true)} }
                 >
                     회원가입
                 </button>

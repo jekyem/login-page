@@ -1,12 +1,15 @@
 import express from 'express';
 import 'babel-polyfill';
 
-import UserCollection from './../mongo/UserCollection';
+import UserCollection from '../../mongo/UserCollection';
+import Encryption from '../../encryption/Encryption';
 
 const router = express.Router();
 
-router.post('/login', async (req,res) => {
-    const result = await loginAuthenticate(req.body.id, req.body.password) 
+router.post('/', async (req,res) => {
+    const data = JSON.parse(Encryption.decryptionAES(req.body.data,req.body.key));
+
+    const result = await loginAuthenticate(data.id, data.password);
     
     if(result)
         req.session.logined = true;

@@ -2,7 +2,6 @@ import express from 'express';
 import morgan from 'morgan';
 import bodyParser from 'body-parser';
 import session from 'express-session';
-
 import ejs from 'ejs';
 
 import loginPage from './routes/login';

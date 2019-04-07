@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require('clean-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const outputDirectory = "build/public";
  
@@ -56,6 +57,9 @@ module.exports = {
     new MiniCssExtractPlugin({
         filename: "[name].css",
         chunkFilename: "[id].css"
-    })
+    }),
+    new CopyWebpackPlugin([
+      {from:'src/server/encryption/key', to:'../encryption/key'}
+    ])
 ]
 };
