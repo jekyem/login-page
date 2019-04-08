@@ -11,8 +11,8 @@ class Encryption {
 
     readFile = (keyFile) => (fs.readFileSync(keyFile,'utf8'));
     getPublicKey = () => (this.key.public);
-    decryptionRSA = (data, key) => {
-
+    decryptionPrivateRSA = (data) => {
+        return crypto.privateDecrypt(this.key.private,Buffer.from(data,'base64')).toString();
     }
     decryptionAES = (data, key) => {
         const decipher = crypto.createDecipher('aes-256-cbc', key);

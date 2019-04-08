@@ -7,9 +7,10 @@ import Encryption from '../../encryption/Encryption';
 const router = express.Router();
 
 router.post('/', async (req,res) => {
-    const data = JSON.parse(Encryption.decryptionAES(req.body.data,req.body.key));
+    const aesKey = Encryption.decryptionPrivateRSA(req.body.key);
+    const loginData = JSON.parse(Encryption.decryptionAES(req.body.data,aesKey));
 
-    const result = await loginAuthenticate(data.id, data.password);
+    const result = await loginAuthenticate(loginData.id, loginData.password);
     
     if(result)
         req.session.logined = true;

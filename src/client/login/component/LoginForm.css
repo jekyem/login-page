@@ -37,14 +37,14 @@
 
 .login-save {
     float: left;
-    width: 50;
+    width: 35%;
 }
 
 .login-alert{
     float: right;
     text-align: right;
     color: red;
-    width: 50%;
+    width: 65%;
 }
 
 .login-button {

@@ -1,3 +1,4 @@
+import 'babel-polyfill'
 import React, {Component} from 'react';
 import axios from 'axios';
 
@@ -29,37 +30,31 @@ export default class LoginForm extends Component{
         });
     }
 
-    handleSubmit = () => {
+    handleSubmit = async () => {
         const data = {
             id:this.state.id,
             password:this.state.password
         }
         
-        const key = Encryption.getRandomKey();
-        const encryptedData = Encryption.encryptionAES(JSON.stringify(data),key);
+        const publicKey = (await axios.get('/api/auth/key/public')).data;
+        const aesKey = Encryption.getRandomKey();
+        const encryptedData = Encryption.encryptionAES(JSON.stringify(data),aesKey);
+        const sendData = {
+            key:Encryption.encryptionRSA(aesKey,publicKey),
+            data:encryptedData
+        }
 
-        var self = this;
-        axios({
-            method:'post',
-            url:'/api/auth/login',
-            data:{
-                key:key,
-                data:encryptedData
-                // id:this.state.id,
-                // password:this.state.password
-            }
-        })
-        .then(res => {
-            if(res.data)
-                window.location = '/';
-            else{
-                alert('로그인 실패');
-                self.setState({
-                    ...this.state,
-                    alert:'로그인에 실패 했습니다.'
-                });
-            }
-        });
+        const res = await axios.post('/api/auth/login', sendData);
+
+        if(res.data === true)
+            window.location='/';
+        else{
+            alert('로그인 실패');
+            this.setState({
+                ...this.state,
+                alert:'로그인에 실패 했습니다.'
+            });
+        }
     }
 
     render() {

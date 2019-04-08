@@ -10,15 +10,6 @@ class Encryption {
         const cipher = crypto.createCipher('aes-256-cbc',key);
         const encrypedData = cipher.update(stringData,'utf8','base64');
         return encrypedData + cipher.final('base64');
-
-        const decipher = crypto.createDecipher('aes-256-cbc', 'key');
-        let decryptedData = decipher.update(encrypedData,'base64','utf8');
-        decryptedData = decryptedData + decipher.final('utf8');
-
-        console.log(encrypedData);
-        console.log(decryptedData);
-
-        return encrypedData;
     }
 
     getRandomKey = () => {
