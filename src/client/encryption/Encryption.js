@@ -12,7 +12,7 @@ class Encryption {
         return encrypedData + cipher.final('base64');
     }
 
-    getRandomKey = () => {
+    getRandomValue = () => {
         return crypto.randomBytes(32).toString('base64');
     }
 }

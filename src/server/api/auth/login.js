@@ -19,7 +19,7 @@ router.post('/', async (req,res) => {
 
 const loginAuthenticate = async (id,pw) => {
     const user = await UserCollection.getUser(id);
-    return user && user.password === pw;
+    return (user !== null && user.password === Encryption.makeHash(pw,user.salt));
 }
 
 export default router;

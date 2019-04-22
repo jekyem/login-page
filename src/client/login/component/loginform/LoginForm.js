@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 
 import './LoginForm.css';
-import Encryption from '../../encryption/Encryption';
+import Encryption from '../../../encryption/Encryption';
 
 export default class LoginForm extends Component{
     constructor(props){
@@ -37,7 +37,7 @@ export default class LoginForm extends Component{
         }
         
         const publicKey = (await axios.get('/api/auth/key/public')).data;
-        const aesKey = Encryption.getRandomKey();
+        const aesKey = Encryption.getRandomValue();
         const encryptedData = Encryption.encryptionAES(JSON.stringify(data),aesKey);
         const sendData = {
             key:Encryption.encryptionRSA(aesKey,publicKey),
@@ -64,7 +64,8 @@ export default class LoginForm extends Component{
                 <div className="login-input">
                     <input 
                         type="text"
-                        placeholder="Email Address"
+                        // placeholder="Email Address"
+                        placeholder="User ID (E-Mail)"
                         value={this.state.id}
                         onChange={this.handleChangeID}
                     />

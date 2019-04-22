@@ -11,7 +11,8 @@ class UserCollection {
     makeUserSchema = () => {
         return new TodoDB.mongoose.Schema({
             id: {type: String, required: true, unique: true},
-            password: {type: String, required: true}
+            password: {type: String, required: true},
+            salt: {type: String, required: true}
         });
     }
 
@@ -22,13 +23,15 @@ class UserCollection {
     addUser = async (userData) => {
         var user = new this.userModel();
         user.id = userData.id;
-        user.password = userData.id;
+        user.password = userData.password;
+        user.salt = userData.salt;
         
         try {
             await user.save();
             return true;
         } catch (error) {
-            return false;            
+            console.log(error);
+            return false;
         }
     }
 

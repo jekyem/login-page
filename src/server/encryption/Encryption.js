@@ -18,7 +18,12 @@ class Encryption {
         const decipher = crypto.createDecipher('aes-256-cbc', key);
         const decryptedData = decipher.update(data,'base64','utf8');
         return decryptedData + decipher.final('utf8');
-        
+    }
+    getRandomValue = () => {
+        return crypto.randomBytes(32).toString('base64');
+    }
+    makeHash = (data, salt) => {
+        return crypto.scryptSync(data, salt, 64).toString('base64');
     }
 }
 
